@@ -1,0 +1,264 @@
+path_to_original_file = 'Dish.csv'
+path_to_cleaned_file = '/content/cs513_team6/Data-Cleaning-Dish_Final_15Jul.csv'
+
+# Create database tables from CSV files
+
+with open(path_to_original_file) as f: Dish = pd.read_csv(path_to_original_file, encoding='unicode_escape', index_col=0)
+%sql drop table if exists Dish;
+%sql --persist Dish
+
+with open(path_to_cleaned_file) as f: DishCleaned = pd.read_csv(path_to_cleaned_file, encoding='unicode_escape', index_col=0)
+%sql drop table if exists DishCleaned;
+%sql --persist DishCleaned
+
+Find all non-lowercase values: Before
+%%sql
+--this query is too large and cannot complete with the runtime constraints therefore we limit the results to 100
+select * from Dish where name != lower(name) limit 100
+
+Find all non-lowercase values: After
+%%sql
+
+select * from DishCleaned where name_cluster_coffee != lower(name_cluster_coffee)
+
+Check that all values in name column of dataset are coffee dishes: Before
+#this query is too large and cannot complete with the runtime constraints therefore we limit the results to 100
+%%sql
+SELECT * FROM Dish
+WHERE
+    name NOT LIKE '%americano (coffee)%' AND
+name NOT LIKE '%blue mountain coffee%' AND
+name NOT LIKE '%calypso coffee%' AND
+name NOT LIKE '%coffee%' AND
+name NOT LIKE '%coffee (decaf)%' AND
+name NOT LIKE '%coffee (large pot)%' AND
+name NOT LIKE '%coffee (pot)%' AND
+name NOT LIKE '%coffee (small pot)%' AND
+name NOT LIKE '%coffee bavaroise%' AND
+name NOT LIKE '%coffee biscuit%' AND
+name NOT LIKE '%coffee blancmange%' AND
+name NOT LIKE '%coffee cake%' AND
+name NOT LIKE '%coffee cocktail%' AND
+name NOT LIKE '%coffee drink%' AND
+name NOT LIKE '%coffee eclair%' AND
+name NOT LIKE '%coffee glacé%' AND
+name NOT LIKE '%coffee granita%' AND
+name NOT LIKE '%coffee ice cream%' AND
+name NOT LIKE '%coffee in tin%' AND
+name NOT LIKE '%coffee jelly%' AND
+name NOT LIKE '%coffee liqueur%' AND
+name NOT LIKE '%coffee mousse%' AND
+name NOT LIKE '%coffee parfait%' AND
+name NOT LIKE '%coffee pastry%' AND
+name NOT LIKE '%coffee pudding%' AND
+name NOT LIKE '%coffee sambuca%' AND
+name NOT LIKE '%coffee souffle%' AND
+name NOT LIKE '%coffee sundae%' AND
+name NOT LIKE '%coffee with cigar%' AND
+name NOT LIKE '%coffee with food%' AND
+name NOT LIKE '%cuban coffee%' AND
+name NOT LIKE '%dutch coffee%' AND
+name NOT LIKE '%frappe (coffee)%' AND
+name NOT LIKE '%french coffee%' AND
+name NOT LIKE '%french coffee (decaf)%' AND
+name NOT LIKE '%iced americano (coffee)%' AND
+name NOT LIKE '%iced coffee%' AND
+name NOT LIKE '%iced coffee (pot)%' AND
+name NOT LIKE '%iced frappe (coffee)%' AND
+name NOT LIKE '%irish coffee%' AND
+name NOT LIKE '%kona coffee%' AND
+name NOT LIKE "%l'absinthe coffee%" AND
+name NOT LIKE '%latte (coffee)%' AND
+name NOT LIKE '%macchiato (coffee)%' AND
+name NOT LIKE '%mocha (coffee)%' AND
+name NOT LIKE '%new orleans coffee%' AND
+name NOT LIKE '%postum (coffee substitute)%' AND
+name NOT LIKE '%russian coffee%' AND
+name NOT LIKE '%spanish coffee%' AND
+name NOT LIKE '%swiss coffee%' AND
+name NOT LIKE '%toulouse lautrec coffee%' AND
+name NOT LIKE '%turkish coffee%' AND
+name NOT LIKE '%cafe au lait%' AND
+name NOT LIKE '%cafe au lait (pot)%' AND
+name NOT LIKE '%cafe brulot%' AND
+name NOT LIKE '%cafe con leche%' AND
+name NOT LIKE '%cafe liegeois%' AND
+name NOT LIKE '%iced cafe au lait%' AND
+name NOT LIKE '%espresso%' AND
+name NOT LIKE '%espresso (decaf)%' AND
+name NOT LIKE '%espresso (pot)%' AND
+name NOT LIKE '%espresso cake%' AND
+name NOT LIKE '%espresso cocktail%' AND
+name NOT LIKE '%espresso drink%' AND
+name NOT LIKE '%espresso pastry%' AND
+name NOT LIKE '%espresso wafers%' AND
+name NOT LIKE '%espresso with food%' AND
+name NOT LIKE '%iced espresso%' AND
+name NOT LIKE '%tiramisu (espresso)%' AND
+name NOT LIKE '%iced mocha%' AND
+name NOT LIKE '%mocha (pot)%' AND
+name NOT LIKE '%mocha bavaroise%' AND
+name NOT LIKE '%mocha cake%' AND
+name NOT LIKE '%mocha drink%' AND
+name NOT LIKE '%mocha eclair%' AND
+name NOT LIKE '%mocha glacé%' AND
+name NOT LIKE '%mocha ice cream%' AND
+name NOT LIKE '%mocha jelly%' AND
+name NOT LIKE '%mocha macaron%' AND
+name NOT LIKE '%mocha mousse%' AND
+name NOT LIKE '%mocha parfait%' AND
+name NOT LIKE '%mocha pastry%' AND
+name NOT LIKE '%mocha pie%' AND
+name NOT LIKE '%mocha praline%' AND
+name NOT LIKE '%mocha pudding%' AND
+name NOT LIKE '%mocha souffle%' AND
+name NOT LIKE '%mocha sundae%' AND
+name NOT LIKE '%mocha tart%' AND
+name NOT LIKE '%mocha torte%' AND
+name NOT LIKE '%mocha with food%' AND
+name NOT LIKE '%mochaccino%' AND
+name NOT LIKE '%cappuccino%' AND
+name NOT LIKE '%cappuccino (decaf)%' AND
+name NOT LIKE '%cappuccino cocktail%' AND
+name NOT LIKE '%cappuccino with food%' AND
+name NOT LIKE '%iced cappuccino%' AND
+name NOT LIKE '%ristretto%' AND
+name NOT LIKE '%ristretto cocktail%'
+limit 100
+
+
+Check that all values in name column of dataset are coffee dishes: After
+%%sql
+
+SELECT * FROM DishCleaned
+WHERE
+name_cluster_coffee NOT LIKE '%americano (coffee)%' AND
+name_cluster_coffee NOT LIKE '%blue mountain coffee%' AND
+name_cluster_coffee NOT LIKE '%calypso coffee%' AND
+name_cluster_coffee NOT LIKE '%coffee%' AND
+name_cluster_coffee NOT LIKE '%coffee (decaf)%' AND
+name_cluster_coffee NOT LIKE '%coffee (large pot)%' AND
+name_cluster_coffee NOT LIKE '%coffee (pot)%' AND
+name_cluster_coffee NOT LIKE '%coffee (small pot)%' AND
+name_cluster_coffee NOT LIKE '%coffee bavaroise%' AND
+name_cluster_coffee NOT LIKE '%coffee biscuit%' AND
+name_cluster_coffee NOT LIKE '%coffee blancmange%' AND
+name_cluster_coffee NOT LIKE '%coffee cake%' AND
+name_cluster_coffee NOT LIKE '%coffee cocktail%' AND
+name_cluster_coffee NOT LIKE '%coffee drink%' AND
+name_cluster_coffee NOT LIKE '%coffee eclair%' AND
+name_cluster_coffee NOT LIKE '%coffee glacé%' AND
+name_cluster_coffee NOT LIKE '%coffee granita%' AND
+name_cluster_coffee NOT LIKE '%coffee ice cream%' AND
+name_cluster_coffee NOT LIKE '%coffee in tin%' AND
+name_cluster_coffee NOT LIKE '%coffee jelly%' AND
+name_cluster_coffee NOT LIKE '%coffee liqueur%' AND
+name_cluster_coffee NOT LIKE '%coffee mousse%' AND
+name_cluster_coffee NOT LIKE '%coffee parfait%' AND
+name_cluster_coffee NOT LIKE '%coffee pastry%' AND
+name_cluster_coffee NOT LIKE '%coffee pudding%' AND
+name_cluster_coffee NOT LIKE '%coffee sambuca%' AND
+name_cluster_coffee NOT LIKE '%coffee souffle%' AND
+name_cluster_coffee NOT LIKE '%coffee sundae%' AND
+name_cluster_coffee NOT LIKE '%coffee with cigar%' AND
+name_cluster_coffee NOT LIKE '%coffee with food%' AND
+name_cluster_coffee NOT LIKE '%cuban coffee%' AND
+name_cluster_coffee NOT LIKE '%dutch coffee%' AND
+name_cluster_coffee NOT LIKE '%frappe (coffee)%' AND
+name_cluster_coffee NOT LIKE '%french coffee%' AND
+name_cluster_coffee NOT LIKE '%french coffee (decaf)%' AND
+name_cluster_coffee NOT LIKE '%iced americano (coffee)%' AND
+name_cluster_coffee NOT LIKE '%iced coffee%' AND
+name_cluster_coffee NOT LIKE '%iced coffee (pot)%' AND
+name_cluster_coffee NOT LIKE '%iced frappe (coffee)%' AND
+name_cluster_coffee NOT LIKE '%irish coffee%' AND
+name_cluster_coffee NOT LIKE '%kona coffee%' AND
+name_cluster_coffee NOT LIKE "%l'absinthe coffee%" AND
+name_cluster_coffee NOT LIKE '%latte (coffee)%' AND
+name_cluster_coffee NOT LIKE '%macchiato (coffee)%' AND
+name_cluster_coffee NOT LIKE '%mocha (coffee)%' AND
+name_cluster_coffee NOT LIKE '%new orleans coffee%' AND
+name_cluster_coffee NOT LIKE '%postum (coffee substitute)%' AND
+name_cluster_coffee NOT LIKE '%russian coffee%' AND
+name_cluster_coffee NOT LIKE '%spanish coffee%' AND
+name_cluster_coffee NOT LIKE '%swiss coffee%' AND
+name_cluster_coffee NOT LIKE '%toulouse lautrec coffee%' AND
+name_cluster_coffee NOT LIKE '%turkish coffee%' AND
+name_cluster_coffee NOT LIKE '%cafe au lait%' AND
+name_cluster_coffee NOT LIKE '%cafe au lait (pot)%' AND
+name_cluster_coffee NOT LIKE '%cafe brulot%' AND
+name_cluster_coffee NOT LIKE '%cafe con leche%' AND
+name_cluster_coffee NOT LIKE '%cafe liegeois%' AND
+name_cluster_coffee NOT LIKE '%iced cafe au lait%' AND
+name_cluster_coffee NOT LIKE '%espresso%' AND
+name_cluster_coffee NOT LIKE '%espresso (decaf)%' AND
+name_cluster_coffee NOT LIKE '%espresso (pot)%' AND
+name_cluster_coffee NOT LIKE '%espresso cake%' AND
+name_cluster_coffee NOT LIKE '%espresso cocktail%' AND
+name_cluster_coffee NOT LIKE '%espresso drink%' AND
+name_cluster_coffee NOT LIKE '%espresso pastry%' AND
+name_cluster_coffee NOT LIKE '%espresso wafers%' AND
+name_cluster_coffee NOT LIKE '%espresso with food%' AND
+name_cluster_coffee NOT LIKE '%iced espresso%' AND
+name_cluster_coffee NOT LIKE '%tiramisu (espresso)%' AND
+name_cluster_coffee NOT LIKE '%iced mocha%' AND
+name_cluster_coffee NOT LIKE '%mocha%' AND
+name_cluster_coffee NOT LIKE '%mocha (pot)%' AND
+name_cluster_coffee NOT LIKE '%mocha bavaroise%' AND
+name_cluster_coffee NOT LIKE '%mocha cake%' AND
+name_cluster_coffee NOT LIKE '%mocha drink%' AND
+name_cluster_coffee NOT LIKE '%mocha eclair%' AND
+name_cluster_coffee NOT LIKE '%mocha glacé%' AND
+name_cluster_coffee NOT LIKE '%mocha ice cream%' AND
+name_cluster_coffee NOT LIKE '%mocha jelly%' AND
+name_cluster_coffee NOT LIKE '%mocha macaron%' AND
+name_cluster_coffee NOT LIKE '%mocha mousse%' AND
+name_cluster_coffee NOT LIKE '%mocha parfait%' AND
+name_cluster_coffee NOT LIKE '%mocha pastry%' AND
+name_cluster_coffee NOT LIKE '%mocha pie%' AND
+name_cluster_coffee NOT LIKE '%mocha praline%' AND
+name_cluster_coffee NOT LIKE '%mocha pudding%' AND
+name_cluster_coffee NOT LIKE '%mocha souffle%' AND
+name_cluster_coffee NOT LIKE '%mocha sundae%' AND
+name_cluster_coffee NOT LIKE '%mocha tart%' AND
+name_cluster_coffee NOT LIKE '%mocha torte%' AND
+name_cluster_coffee NOT LIKE '%mocha with food%' AND
+name_cluster_coffee NOT LIKE '%mochaccino%' AND
+name_cluster_coffee NOT LIKE '%cappuccino%' AND
+name_cluster_coffee NOT LIKE '%cappuccino (decaf)%' AND
+name_cluster_coffee NOT LIKE '%cappuccino cocktail%' AND
+name_cluster_coffee NOT LIKE '%cappuccino with food%' AND
+name_cluster_coffee NOT LIKE '%iced cappuccino%' AND
+name_cluster_coffee NOT LIKE '%ristretto%' AND
+name_cluster_coffee NOT LIKE '%ristretto cocktail%'
+
+Check that menus_appeared >= 1: Before
+%%sql
+select * from Dish where menus_appeared < 1 limit 100
+
+Check that menus_appeared >= 1: After
+%%sql
+select * from DishCleaned where menus_appeared < 1
+
+Check that lowest_price or highest_price are not missing: Before
+%%sql
+select * from Dish where lowest_price is NULL or highest_price is NULL limit 100
+
+Check that lowest_price or highest_price are not missing: After
+%%sql
+
+select * from DishCleaned where lowest_price is NULL or highest_price is NULL
+
+Check for invalid dates: Before
+%%sql
+
+select * from Dish where first_appeared < 1840  or last_appeared > 2021 limit 100
+%%sql
+select * from Dish where first_appeared > last_appeared
+
+Check for invalid dates: After
+%%sql
+select * from DishCleaned where first_appeared_fixed < 1840 or last_appeared_fixed > 2021
+%%sql
+
+select * from DishCleaned where first_appeared_fixed > last_appeared_fixed
